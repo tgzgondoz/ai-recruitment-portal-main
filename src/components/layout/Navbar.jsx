@@ -7,12 +7,8 @@ import {
   FaExchangeAlt, 
   FaSignOutAlt, 
   FaChevronDown, 
-  FaBriefcase, 
-  FaUserCircle, 
-  FaMapMarkerAlt,
   FaBars
 } from 'react-icons/fa';
-import { cn } from '../../lib/utils';
 
 const Navbar = ({ onMenuClick }) => {
   const { user, signOut, isCandidate, userType, switchUserType } = useAuth();
@@ -60,67 +56,100 @@ const Navbar = ({ onMenuClick }) => {
   }, [isNotifOpen, userType]);
 
   return (
-    <nav className={cn(
-      "sticky top-0 z-40 h-16 bg-white/80 backdrop-blur-md transition-all duration-300 w-full",
-      scrolled ? "shadow-md border-b border-gray-100" : "border-b border-gray-100"
-    )}>
-      <div className="w-full px-4 md:px-8 h-full flex justify-between items-center">
+    <nav className={`
+      sticky top-0 z-40 h-16 bg-white border-b border-gray-200 transition-all duration-300 w-full
+      ${scrolled ? 'shadow-sm' : ''}
+    `}>
+      <div className="w-full px-4 md:px-6 h-full flex justify-between items-center">
         
-        {/* Left: Mobile Toggle & Mobile Logo */}
-        <div className="flex items-center gap-4">
-          <button onClick={onMenuClick} className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100">
-            <FaBars className="w-5 h-5" />
-          </button>
+        {/* Left: Mobile Toggle & Logo */}
+        <div className="flex items-center gap-3">
+          
 
-          <div className="flex items-center gap-3 cursor-pointer md:hidden" onClick={() => navigate('/dashboard')}>
-            <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center text-white font-bold text-sm">D</div>
-            <h1 className="text-lg font-bold text-gray-900">Dimensions</h1>
+          <div 
+            className="flex items-center gap-2 cursor-pointer" 
+            onClick={() => navigate('/dashboard')}
+          >
+            <div className="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center text-white font-medium">
+              D
+            </div>
+            <div className="hidden sm:block">
+              <h1 className="text-base font-medium text-gray-900 leading-none">Dimensions</h1>
+              <p className="text-xs text-gray-500">Candidate Portal</p>
+            </div>
           </div>
         </div>
 
         {/* Right: Actions */}
-        <div className="flex items-center space-x-3 md:space-x-4">
+        <div className="flex items-center space-x-3">
           {/* User type switcher */}
           <button 
             onClick={() => switchUserType(isCandidate ? 'agent' : 'candidate')}
-            className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-full transition-all group"
+            className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gray-50 hover:bg-gray-100 border border-gray-300 rounded-lg transition-colors"
           >
-            <div className={cn("w-2 h-2 rounded-full", isCandidate ? "bg-green-500" : "bg-blue-500")} />
-            <span className="text-[10px] font-black text-gray-700 uppercase tracking-widest">{userType}</span>
-            <FaExchangeAlt className="text-gray-400 group-hover:text-brand-primary text-[10px]" />
+            <span className="text-xs font-medium text-gray-900">
+              {userType === 'agent' ? 'Recruiter View' : 'Candidate View'}
+            </span>
+            <FaExchangeAlt className="text-gray-500 text-xs" />
           </button>
 
           {/* Notifications */}
           <div className="relative">
-            <button onClick={() => setIsNotifOpen(!isNotifOpen)} className="p-2 text-gray-500 hover:bg-gray-100 rounded-full relative">
+            <button 
+              onClick={() => setIsNotifOpen(!isNotifOpen)} 
+              className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors relative"
+            >
               <FaBell className="w-5 h-5" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-gray-900 rounded-full"></span>
             </button>
             {isNotifOpen && (
-              <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-200 z-50 overflow-hidden">
-                <div className="p-3 border-b border-gray-100 bg-gray-50 font-bold text-xs uppercase text-gray-500">Recent Updates</div>
+              <div className="absolute right-0 mt-2 w-72 bg-white rounded-lg border border-gray-200 shadow-lg z-50 overflow-hidden">
+                <div className="px-4 py-3 border-b border-gray-200">
+                  <h3 className="text-sm font-medium text-gray-900">Recent Updates</h3>
+                </div>
                 <div className="max-h-64 overflow-y-auto">
-                  {recentItems.map(item => (
-                    <div key={item.id} className="p-3 border-b border-gray-50 hover:bg-gray-50 cursor-pointer text-sm">
-                      {userType === 'agent' ? item.candidate_profiles?.full_name : item.title}
-                    </div>
-                  ))}
+                  {loading ? (
+                    <div className="px-4 py-3 text-sm text-gray-500">Loading...</div>
+                  ) : recentItems.length === 0 ? (
+                    <div className="px-4 py-3 text-sm text-gray-500">No updates</div>
+                  ) : (
+                    recentItems.map(item => (
+                      <div 
+                        key={item.id} 
+                        className="px-4 py-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer"
+                      >
+                        <div className="text-sm text-gray-900">
+                          {userType === 'agent' ? item.candidate_profiles?.full_name : item.title}
+                        </div>
+                        <div className="text-xs text-gray-500 mt-1">
+                          {userType === 'agent' ? item.job_listings?.title : item.location_city}
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             )}
           </div>
 
           {/* Profile */}
-          <div className="relative group">
-            <button className="flex items-center gap-2 p-1 border border-transparent hover:border-gray-200 rounded-full transition-all">
-              <div className="w-8 h-8 bg-brand-primary rounded-full flex items-center justify-center text-white font-bold text-xs">
-                {user?.email?.[0]?.toUpperCase()}
+          <div className="relative">
+            <button className="flex items-center gap-2 p-1 hover:bg-gray-100 rounded-lg transition-colors">
+              <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center text-white font-medium">
+                {user?.email?.[0]?.toUpperCase() || 'U'}
               </div>
-              <FaChevronDown className="text-gray-400 text-[10px] hidden md:block" />
+              <FaChevronDown className="text-gray-500 text-sm hidden sm:block" />
             </button>
-            <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-200 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all">
-              <button onClick={handleSignOut} className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 rounded-b-xl flex items-center gap-2">
-                <FaSignOutAlt size={12} /> Sign Out
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg border border-gray-200 shadow-lg z-50">
+              <div className="px-4 py-3 border-b border-gray-200">
+                <div className="text-sm font-medium text-gray-900">{user?.email}</div>
+                <div className="text-xs text-gray-500 mt-1">{userType === 'agent' ? 'Recruiter' : 'Candidate'}</div>
+              </div>
+              <button 
+                onClick={handleSignOut} 
+                className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition-colors"
+              >
+                <FaSignOutAlt size={14} /> Sign Out
               </button>
             </div>
           </div>

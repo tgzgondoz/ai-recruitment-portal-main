@@ -1,4 +1,3 @@
-// In your Layout.jsx - Add this container for the chatbot
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
@@ -17,38 +16,41 @@ const Layout = () => {
   }
 
   return (
-    <div className="relative flex h-screen bg-[#F8FAFC] overflow-hidden">
+    <div className="relative flex h-screen bg-gray-50 overflow-hidden">
       <NotificationSystem />
 
+      {/* Sidebar */}
       <aside className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-100 transform transition-transform duration-300 ease-in-out 
+        fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300
         md:relative md:translate-x-0 md:flex-shrink-0
-        ${isSidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0'}
+        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
         <Sidebar closeMobileMenu={() => setIsSidebarOpen(false)} />
       </aside>
 
+      {/* Mobile overlay */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden transition-opacity" 
+          className="fixed inset-0 bg-gray-900/50 z-40 md:hidden" 
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
-      <div className="flex flex-col flex-1 min-w-0 h-full relative">
+      {/* Main content */}
+      <div className="flex flex-col flex-1 min-w-0 h-full">
         <Navbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
 
         <main 
-          className="flex-1 overflow-y-auto p-4 md:p-8 transition-all duration-200"
+          className="flex-1 overflow-y-auto p-4 md:p-6"
           onClick={handleMainClick}
         >
-          <div className="max-w-[1400px] mx-auto animate-fade-in">
+          <div className="max-w-[1400px] mx-auto">
             <Outlet context={{ user, userType }} />
           </div>
         </main>
       </div>
 
-      {/* ChatBot Container - This ensures proper positioning */}
+      {/* ChatBot Container */}
       <div id="chatbot-container" className="fixed bottom-0 right-0 w-auto h-auto z-[100]" />
     </div>
   )

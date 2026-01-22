@@ -1,10 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { 
-  FaUser, FaEnvelope, FaLock, FaPhone, FaArrowRight, 
-  FaCheck, FaTimes, FaArrowLeft
-} from 'react-icons/fa'
 import toast from 'react-hot-toast'
 import { cn } from '../lib/utils'
 
@@ -66,108 +62,165 @@ const Register = () => {
   }
 
   const getPasswordStrengthColor = (strength) => {
-    if (strength >= 75) return 'bg-green-500'
-    if (strength >= 50) return 'bg-yellow-500'
-    if (strength >= 25) return 'bg-orange-500'
-    return 'bg-red-500'
+    if (strength >= 75) return 'bg-gray-900'
+    if (strength >= 50) return 'bg-gray-700'
+    if (strength >= 25) return 'bg-gray-500'
+    return 'bg-gray-300'
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full py-8">
-        <Link to="/login" className="inline-flex items-center gap-2 text-xs font-black text-gray-400 hover:text-blue-600 mb-8 transition-colors uppercase tracking-widest">
-          <FaArrowLeft /> Back to Login
-        </Link>
-
+    <div className="min-h-screen bg-white flex items-center justify-center px-4">
+      <div className="max-w-md w-full">
+        {/* Header */}
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center font-black text-xl shadow-xl shadow-blue-200">D</div>
-            <div className="text-left">
-              <h1 className="text-2xl font-black text-gray-900 leading-none">Dimensions</h1>
-              <p className="text-gray-500 text-[10px] mt-1 uppercase tracking-[0.2em] font-bold">Candidate Portal</p>
-            </div>
-          </div>
-          <h2 className="text-3xl font-black text-gray-900 mb-2">Join Today</h2>
-          <p className="text-gray-500 font-medium">Start your career journey with AI</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-1">Dimensions</h1>
+          <p className="text-sm text-gray-500 uppercase tracking-wider mb-6">Candidate Portal</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Create account</h2>
+          <p className="text-gray-600">
+            Start your career journey. The future of your professional growth begins here.
+          </p>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-2xl shadow-gray-200/50 border border-gray-100 p-8">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            
-            {[
-              { label: 'Full Name', icon: FaUser, name: 'full_name', type: 'text', placeholder: 'Enter your name' },
-              { label: 'Email Address', icon: FaEnvelope, name: 'email', type: 'email', placeholder: 'name@example.com' },
-              { label: 'Phone (Optional)', icon: FaPhone, name: 'phone', type: 'tel', placeholder: '+1 (555) 000-0000' }
-            ].map((input) => (
-              <div key={input.name}>
-                <label className="block text-[10px] font-black text-gray-600 uppercase tracking-wider ml-1 mb-2">{input.label}</label>
-                <div className="relative group">
-                  <input.icon className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors" />
-                  <input
-                    type={input.type}
-                    name={input.name}
-                    value={formData[input.name]}
-                    onChange={handleChange}
-                    required={input.name !== 'phone'}
-                    className="w-full pl-12 pr-4 py-3.5 bg-white border-2 border-gray-100 rounded-2xl text-gray-900 font-bold placeholder:text-gray-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all"
-                    placeholder={input.placeholder}
-                  />
-                </div>
-              </div>
-            ))}
+        {/* Back Link */}
+        <Link to="/login" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 mb-6 transition-colors">
+          ← Back to Login
+        </Link>
 
+        {/* Registration Form */}
+        <div className="mt-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Full Name */}
             <div>
-              <label className="block text-[10px] font-black text-gray-600 uppercase tracking-wider ml-1 mb-2">Password</label>
-              <div className="relative group">
-                <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors" />
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  className="w-full pl-12 pr-4 py-3.5 bg-white border-2 border-gray-100 rounded-2xl text-gray-900 font-bold placeholder:text-gray-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all"
-                  placeholder="••••••••"
-                />
-              </div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Full Name
+              </label>
+              <input
+                type="text"
+                name="full_name"
+                value={formData.full_name}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
+                placeholder="Enter your full name"
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Email address
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
+                placeholder="name@example.com"
+              />
+            </div>
+
+            {/* Phone (Optional) */}
+            <div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Phone <span className="text-gray-500 font-normal">(Optional)</span>
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
+                placeholder="+1 (555) 000-0000"
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
+                placeholder="Create a password"
+              />
               {formData.password && (
-                <div className="mt-3 px-1">
-                  <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
-                    <div className={cn("h-full transition-all duration-500", getPasswordStrengthColor(passwordStrength))} style={{ width: `${passwordStrength}%` }} />
+                <div className="mt-3">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-xs text-gray-600">Password strength</span>
+                    <span className="text-xs font-medium text-gray-900">{passwordStrength}%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                    <div className={cn("h-full transition-all duration-500", getPasswordStrengthColor(passwordStrength))} 
+                      style={{ width: `${passwordStrength}%` }} 
+                    />
                   </div>
                 </div>
               )}
             </div>
 
+            {/* Confirm Password */}
             <div>
-              <label className="block text-[10px] font-black text-gray-600 uppercase tracking-wider ml-1 mb-2">Confirm Password</label>
-              <div className="relative group">
-                <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors" />
-                <input
-                  type="password"
-                  name="confirm_password"
-                  value={formData.confirm_password}
-                  onChange={handleChange}
-                  required
-                  className="w-full pl-12 pr-4 py-3.5 bg-white border-2 border-gray-100 rounded-2xl text-gray-900 font-bold placeholder:text-gray-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all"
-                  placeholder="Confirm your password"
-                />
-              </div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                name="confirm_password"
+                value={formData.confirm_password}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
+                placeholder="Confirm your password"
+              />
             </div>
 
+            {/* Terms Checkbox */}
+            <div className="flex items-start">
+              <input
+                type="checkbox"
+                id="terms"
+                className="h-4 w-4 text-gray-900 border-gray-300 rounded focus:ring-gray-800 mt-1"
+                required
+              />
+              <label htmlFor="terms" className="ml-3 text-sm text-gray-600">
+                By clicking "Create Account", I agree to the{' '}
+                <a href="#" className="text-gray-900 hover:text-gray-700">Terms of Service</a>
+                {' '}and{' '}
+                <a href="#" className="text-gray-900 hover:text-gray-700">Privacy Policy</a>.
+              </label>
+            </div>
+
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-70 mt-4 uppercase text-xs tracking-widest"
+              className="w-full bg-gray-900 hover:bg-black text-white font-medium py-3.5 rounded-lg transition-all duration-200 flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {loading ? <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" /> : <><span>Create Account</span><FaArrowRight /></>}
+              {loading ? (
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              ) : (
+                'Create Account'
+              )}
             </button>
           </form>
 
-          <div className="mt-8 text-center pt-6 border-t border-gray-50">
-            <p className="text-sm font-bold text-gray-500">
-              Already a member?{' '}
-              <Link to="/login" className="text-blue-600 hover:text-blue-700 underline decoration-2 underline-offset-4">Sign In</Link>
+          {/* Footer */}
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <p className="text-center text-gray-600">
+              Already have an account?{' '}
+              <Link 
+                to="/login" 
+                className="text-gray-900 hover:text-gray-700 font-medium"
+              >
+                Log in
+              </Link>
             </p>
           </div>
         </div>
