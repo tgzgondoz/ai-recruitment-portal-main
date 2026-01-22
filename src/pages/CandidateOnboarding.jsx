@@ -7,13 +7,11 @@ import {
   FaPlus, 
   FaTimes, 
   FaMagic, 
-  FaUser, 
   FaGraduationCap,
   FaBriefcase,
   FaCheckCircle
 } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { cn } from '../lib/utils';
 
 const CandidateOnboarding = () => {
   const { user } = useAuth();
@@ -29,8 +27,7 @@ const CandidateOnboarding = () => {
     mutationFn: (data) => jobService.updateProfile(data),
     onSuccess: () => {
       queryClient.invalidateQueries(['profile']);
-      toast.success('Profile completed successfully!');
-      // In a real app, you might redirect here
+      toast.success('Profile completed successfully');
     },
     onError: () => toast.error('Failed to update profile')
   });
@@ -71,50 +68,50 @@ const CandidateOnboarding = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-brand-light to-white py-8 px-4">
+    <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div className="text-center">
-              <div className={cn(
-                "w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm mb-2",
-                step >= 1 ? "bg-brand-primary" : "bg-gray-300"
-              )}>
+              <div className={`
+                w-10 h-10 rounded-full flex items-center justify-center text-white font-medium text-sm mb-2
+                ${step >= 1 ? "bg-gray-900" : "bg-gray-300"}
+              `}>
                 1
               </div>
               <span className="text-xs font-medium text-gray-600">Skills</span>
             </div>
             
             <div className="flex-1 h-1 mx-4">
-              <div className={cn(
-                "h-full rounded-full transition-all duration-300",
-                step >= 2 ? "bg-brand-primary" : "bg-gray-300"
-              )} />
+              <div className={`
+                h-full rounded-full transition-all duration-300
+                ${step >= 2 ? "bg-gray-900" : "bg-gray-300"}
+              `} />
             </div>
             
             <div className="text-center">
-              <div className={cn(
-                "w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm mb-2",
-                step >= 2 ? "bg-brand-primary" : "bg-gray-300"
-              )}>
+              <div className={`
+                w-10 h-10 rounded-full flex items-center justify-center text-white font-medium text-sm mb-2
+                ${step >= 2 ? "bg-gray-900" : "bg-gray-300"}
+              `}>
                 2
               </div>
               <span className="text-xs font-medium text-gray-600">Experience</span>
             </div>
             
             <div className="flex-1 h-1 mx-4">
-              <div className={cn(
-                "h-full rounded-full transition-all duration-300",
-                step >= 3 ? "bg-brand-primary" : "bg-gray-300"
-              )} />
+              <div className={`
+                h-full rounded-full transition-all duration-300
+                ${step >= 3 ? "bg-gray-900" : "bg-gray-300"}
+              `} />
             </div>
             
             <div className="text-center">
-              <div className={cn(
-                "w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm mb-2",
-                step >= 3 ? "bg-brand-primary" : "bg-gray-300"
-              )}>
+              <div className={`
+                w-10 h-10 rounded-full flex items-center justify-center text-white font-medium text-sm mb-2
+                ${step >= 3 ? "bg-gray-900" : "bg-gray-300"}
+              `}>
                 3
               </div>
               <span className="text-xs font-medium text-gray-600">Complete</span>
@@ -123,13 +120,13 @@ const CandidateOnboarding = () => {
         </div>
 
         {/* Content */}
-        <div className="dc-card p-6 md:p-8">
+        <div className="bg-white border border-gray-200 rounded-lg p-6 md:p-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-brand-primary to-brand-secondary rounded-2xl text-white mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-900 rounded-lg text-white mb-4">
               <FaRocket className="w-8 h-8" />
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl md:text-3xl font-medium text-gray-900 mb-2">
               {step === 1 && 'Add Your Skills'}
               {step === 2 && 'Tell Us About Yourself'}
               {step === 3 && 'Complete Your Profile'}
@@ -145,7 +142,7 @@ const CandidateOnboarding = () => {
           {step === 1 && (
             <div className="space-y-6">
               <div>
-                <label className="dc-label flex items-center gap-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2 flex items-center gap-2">
                   <FaGraduationCap className="w-4 h-4" />
                   Add Your Skills
                 </label>
@@ -155,12 +152,12 @@ const CandidateOnboarding = () => {
                     value={currentSkill}
                     onChange={(e) => setCurrentSkill(e.target.value)}
                     placeholder="e.g., React, Python, Project Management"
-                    className="dc-input flex-1"
+                    className="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   />
                   <button 
                     type="submit"
                     disabled={!currentSkill.trim()}
-                    className="dc-btn-primary px-4 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-3 bg-gray-900 hover:bg-black text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <FaPlus className="w-4 h-4" />
                   </button>
@@ -170,12 +167,12 @@ const CandidateOnboarding = () => {
                   {skills.map(skill => (
                     <span 
                       key={skill} 
-                      className="inline-flex items-center gap-2 px-3 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium"
+                      className="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-900 rounded-lg text-sm font-medium"
                     >
                       {skill}
                       <button 
                         onClick={() => removeSkill(skill)}
-                        className="hover:text-blue-900"
+                        className="hover:text-gray-700"
                       >
                         <FaTimes className="w-3 h-3" />
                       </button>
@@ -196,14 +193,14 @@ const CandidateOnboarding = () => {
           {step === 2 && (
             <div className="space-y-6">
               <div>
-                <label className="dc-label flex items-center gap-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2 flex items-center gap-2">
                   <FaBriefcase className="w-4 h-4" />
                   Professional Summary
                 </label>
                 <textarea 
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
-                  className="dc-input h-32"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all h-32"
                   placeholder="Briefly describe your professional background, achievements, and career goals..."
                   rows={4}
                 />
@@ -211,11 +208,11 @@ const CandidateOnboarding = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="dc-label">Years of Experience</label>
+                  <label className="block text-sm font-medium text-gray-900 mb-2">Years of Experience</label>
                   <select 
                     value={experience}
                     onChange={(e) => setExperience(e.target.value)}
-                    className="dc-input"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   >
                     <option value="">Select experience</option>
                     <option value="0-2">0-2 years</option>
@@ -226,11 +223,11 @@ const CandidateOnboarding = () => {
                 </div>
                 
                 <div>
-                  <label className="dc-label">Highest Education</label>
+                  <label className="block text-sm font-medium text-gray-900 mb-2">Highest Education</label>
                   <select 
                     value={education}
                     onChange={(e) => setEducation(e.target.value)}
-                    className="dc-input"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   >
                     <option value="">Select education</option>
                     <option value="high_school">High School</option>
@@ -247,12 +244,12 @@ const CandidateOnboarding = () => {
           {/* Step 3: Review */}
           {step === 3 && (
             <div className="space-y-6">
-              <div className="bg-green-50 border border-green-100 rounded-xl p-4 mb-6">
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
                 <div className="flex items-center gap-3">
-                  <FaCheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                  <FaCheckCircle className="w-5 h-5 text-gray-900 flex-shrink-0" />
                   <div>
-                    <p className="font-semibold text-green-800">Profile Ready</p>
-                    <p className="text-sm text-green-600">
+                    <p className="font-medium text-gray-900">Profile Ready</p>
+                    <p className="text-sm text-gray-600">
                       Your profile is complete and ready for job matches
                     </p>
                   </div>
@@ -260,7 +257,7 @@ const CandidateOnboarding = () => {
               </div>
               
               <div className="space-y-4">
-                <div className="p-4 bg-gray-50 rounded-xl">
+                <div className="p-4 bg-gray-50 rounded-lg">
                   <p className="text-sm font-medium text-gray-600 mb-2">Skills Added</p>
                   <div className="flex flex-wrap gap-2">
                     {skills.map(skill => (
@@ -275,7 +272,7 @@ const CandidateOnboarding = () => {
                 </div>
                 
                 {bio && (
-                  <div className="p-4 bg-gray-50 rounded-xl">
+                  <div className="p-4 bg-gray-50 rounded-lg">
                     <p className="text-sm font-medium text-gray-600 mb-2">Professional Summary</p>
                     <p className="text-gray-700">{bio}</p>
                   </div>
@@ -284,14 +281,14 @@ const CandidateOnboarding = () => {
                 {(experience || education) && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {experience && (
-                      <div className="p-4 bg-gray-50 rounded-xl">
+                      <div className="p-4 bg-gray-50 rounded-lg">
                         <p className="text-sm font-medium text-gray-600 mb-2">Experience</p>
                         <p className="text-gray-700">{experience} years</p>
                       </div>
                     )}
                     
                     {education && (
-                      <div className="p-4 bg-gray-50 rounded-xl">
+                      <div className="p-4 bg-gray-50 rounded-lg">
                         <p className="text-sm font-medium text-gray-600 mb-2">Education</p>
                         <p className="text-gray-700">{education}</p>
                       </div>
@@ -307,7 +304,7 @@ const CandidateOnboarding = () => {
             {step > 1 && (
               <button 
                 onClick={handleBack}
-                className="dc-btn-secondary flex-1 py-3"
+                className="flex-1 py-3 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
               >
                 Back
               </button>
@@ -320,12 +317,17 @@ const CandidateOnboarding = () => {
                 (step === 2 && !bio.trim()) ||
                 profileMutation.isPending
               }
-              className={cn(
-                "flex-1 py-3 font-semibold rounded-lg flex items-center justify-center gap-2 transition-all",
-                step === 3 
-                  ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white hover:opacity-90"
-                  : "dc-btn-primary"
-              )}
+              className={`
+                flex-1 py-3 font-medium rounded-lg flex items-center justify-center gap-2 transition-colors
+                ${step === 3 
+                  ? "bg-gray-900 hover:bg-black text-white"
+                  : "bg-gray-900 hover:bg-black text-white"}
+                ${((step === 1 && skills.length < 3) ||
+                   (step === 2 && !bio.trim()) ||
+                   profileMutation.isPending) 
+                  ? "opacity-50 cursor-not-allowed" 
+                  : ""}
+              `}
             >
               {profileMutation.isPending ? (
                 <>

@@ -146,10 +146,10 @@ const DebugAuth = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Auth Debug Page</h1>
+        <h1 className="text-3xl font-medium mb-6">Auth Debug Page</h1>
         
-        <div className="mb-8 p-6 bg-white rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Environment Variables</h2>
+        <div className="mb-8 p-6 bg-white border border-gray-200 rounded-lg">
+          <h2 className="text-xl font-medium mb-4">Environment Variables</h2>
           <div className="space-y-2">
             <div className="flex items-center">
               <span className="w-40 font-medium">VITE_SUPABASE_URL:</span>
@@ -172,7 +172,7 @@ const DebugAuth = () => {
           <button
             onClick={testEmailFormat}
             disabled={loading}
-            className="p-4 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+            className="p-4 bg-gray-900 hover:bg-black text-white rounded-lg transition-colors disabled:opacity-50"
           >
             Test Email Formats
           </button>
@@ -180,7 +180,7 @@ const DebugAuth = () => {
           <button
             onClick={testDirectCurl}
             disabled={loading}
-            className="p-4 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+            className="p-4 bg-gray-900 hover:bg-black text-white rounded-lg transition-colors disabled:opacity-50"
           >
             Test Direct API
           </button>
@@ -188,7 +188,7 @@ const DebugAuth = () => {
           <button
             onClick={checkSupabaseSettings}
             disabled={loading}
-            className="p-4 bg-purple-600 text-white rounded hover:bg-purple-700 disabled:opacity-50"
+            className="p-4 bg-gray-900 hover:bg-black text-white rounded-lg transition-colors disabled:opacity-50"
           >
             Check Settings
           </button>
@@ -196,27 +196,27 @@ const DebugAuth = () => {
 
         <button
           onClick={resetTest}
-          className="mb-6 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+          className="mb-6 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors"
         >
           Clear Results
         </button>
 
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="p-4 bg-gray-50 border-b">
-            <h2 className="text-xl font-semibold">Test Results</h2>
+        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+          <div className="p-4 bg-gray-50 border-b border-gray-200">
+            <h2 className="text-xl font-medium">Test Results</h2>
           </div>
           
-          <div className="divide-y">
+          <div className="divide-y divide-gray-200">
             {results.map((result, index) => (
               <div key={index} className="p-4">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-1">
                       <span className={`w-6 h-6 flex items-center justify-center rounded-full ${
-                        result.status === 'success' ? 'bg-green-100 text-green-800' :
-                        result.status === 'error' ? 'bg-red-100 text-red-800' :
-                        result.status === 'warning' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-blue-100 text-blue-800'
+                        result.status === 'success' ? 'bg-gray-100 text-gray-900' :
+                        result.status === 'error' ? 'bg-gray-100 text-gray-900' :
+                        result.status === 'warning' ? 'bg-gray-100 text-gray-900' :
+                        'bg-gray-100 text-gray-900'
                       }`}>
                         {result.status === 'success' ? '✓' :
                          result.status === 'error' ? '✗' :
@@ -225,7 +225,7 @@ const DebugAuth = () => {
                       <span className="font-medium">{result.step}</span>
                     </div>
                     {result.message && (
-                      <pre className="mt-2 text-sm bg-gray-50 p-3 rounded overflow-auto">
+                      <pre className="mt-2 text-sm bg-gray-50 p-3 rounded overflow-auto border border-gray-200">
                         {result.message}
                       </pre>
                     )}
@@ -245,16 +245,16 @@ const DebugAuth = () => {
             
             {loading && (
               <div className="p-8 text-center">
-                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
                 <p className="mt-2 text-gray-600">Running tests...</p>
               </div>
             )}
           </div>
         </div>
 
-        <div className="mt-8 p-6 bg-yellow-50 rounded-lg">
-          <h3 className="font-semibold text-yellow-800 mb-2">Debug Steps</h3>
-          <ol className="list-decimal list-inside space-y-2 text-yellow-700">
+        <div className="mt-8 p-6 bg-gray-50 border border-gray-200 rounded-lg">
+          <h3 className="font-medium text-gray-900 mb-2">Debug Steps</h3>
+          <ol className="list-decimal list-inside space-y-2 text-gray-700">
             <li>Click "Check Settings" first to verify connection</li>
             <li>Click "Test Email Formats" to see which emails work</li>
             <li>If all fail, click "Test Direct API" to bypass the SDK</li>

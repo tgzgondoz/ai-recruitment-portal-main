@@ -5,12 +5,10 @@ import {
   FaMapMarkerAlt, 
   FaDollarSign, 
   FaFileAlt,
-  FaUsers,
   FaCalendar,
   FaGlobe,
-  FaBuilding
+  FaSpinner
 } from 'react-icons/fa';
-import { cn } from '../lib/utils';
 
 const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -81,13 +79,11 @@ const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
     setLoading(true);
     
     try {
-      // Prepare data for submission
       const submissionData = {
         ...formData,
         salary_min: formData.salary_min ? parseInt(formData.salary_min) : null,
         salary_max: formData.salary_max ? parseInt(formData.salary_max) : null,
         location: `${formData.location_city}, ${formData.location_country}`,
-        // Combine location fields
         location_city: formData.location_city,
         location_country: formData.location_country
       };
@@ -103,12 +99,12 @@ const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/50 backdrop-blur-sm">
-      <div className="bg-white w-full max-w-2xl max-h-[90vh] rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-gray-900/50 backdrop-blur-sm">
+      <div className="bg-white w-full max-w-2xl max-h-[90vh] rounded-lg overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-100 p-4 sm:p-6 flex justify-between items-center z-20">
+        <div className="sticky top-0 bg-white border-b border-gray-200 p-4 sm:p-6 flex justify-between items-center z-20">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+            <h2 className="text-xl sm:text-2xl font-medium text-gray-900">
               {job ? 'Edit Job' : 'Post New Job'}
             </h2>
             <p className="text-gray-600 text-sm mt-1">
@@ -124,17 +120,17 @@ const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
         </div>
 
         {/* Form Content */}
-        <div className="flex-1 overflow-y-auto dc-no-scrollbar p-4 sm:p-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Job Title */}
             <div>
-              <label className="dc-label flex items-center gap-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2 flex items-center gap-2">
                 <FaBriefcase className="w-4 h-4" />
                 Job Title
               </label>
               <input 
                 required
-                className="dc-input"
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                 placeholder="e.g. Senior Frontend Developer"
                 value={formData.title}
                 onChange={e => setFormData({...formData, title: e.target.value})}
@@ -144,26 +140,26 @@ const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
             {/* Location Fields */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="dc-label flex items-center gap-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2 flex items-center gap-2">
                   <FaMapMarkerAlt className="w-4 h-4" />
                   City
                 </label>
                 <input 
                   required
-                  className="dc-input"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   placeholder="e.g. San Francisco"
                   value={formData.location_city}
                   onChange={e => setFormData({...formData, location_city: e.target.value})}
                 />
               </div>
               <div>
-                <label className="dc-label flex items-center gap-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2 flex items-center gap-2">
                   <FaGlobe className="w-4 h-4" />
                   Country
                 </label>
                 <input 
                   required
-                  className="dc-input"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   placeholder="e.g. United States"
                   value={formData.location_country}
                   onChange={e => setFormData({...formData, location_country: e.target.value})}
@@ -174,35 +170,35 @@ const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
             {/* Salary Range */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label className="dc-label flex items-center gap-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2 flex items-center gap-2">
                   <FaDollarSign className="w-4 h-4" />
                   Min Salary
                 </label>
                 <input 
                   type="number"
-                  className="dc-input"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   placeholder="e.g. 80000"
                   value={formData.salary_min}
                   onChange={e => setFormData({...formData, salary_min: e.target.value})}
                 />
               </div>
               <div>
-                <label className="dc-label flex items-center gap-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2 flex items-center gap-2">
                   <FaDollarSign className="w-4 h-4" />
                   Max Salary
                 </label>
                 <input 
                   type="number"
-                  className="dc-input"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   placeholder="e.g. 120000"
                   value={formData.salary_max}
                   onChange={e => setFormData({...formData, salary_max: e.target.value})}
                 />
               </div>
               <div>
-                <label className="dc-label">Currency</label>
+                <label className="block text-sm font-medium text-gray-900 mb-2">Currency</label>
                 <select 
-                  className="dc-input"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   value={formData.salary_currency}
                   onChange={e => setFormData({...formData, salary_currency: e.target.value})}
                 >
@@ -216,9 +212,9 @@ const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
             {/* Job Details */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="dc-label">Job Type</label>
+                <label className="block text-sm font-medium text-gray-900 mb-2">Job Type</label>
                 <select 
-                  className="dc-input"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   value={formData.job_type}
                   onChange={e => setFormData({...formData, job_type: e.target.value})}
                 >
@@ -230,9 +226,9 @@ const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
                 </select>
               </div>
               <div>
-                <label className="dc-label">Experience Level</label>
+                <label className="block text-sm font-medium text-gray-900 mb-2">Experience Level</label>
                 <select 
-                  className="dc-input"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   value={formData.experience_level}
                   onChange={e => setFormData({...formData, experience_level: e.target.value})}
                 >
@@ -247,26 +243,26 @@ const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
 
             {/* Remote Work & Deadline */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
                 <input 
                   type="checkbox"
                   id="is_remote"
                   checked={formData.is_remote}
                   onChange={e => setFormData({...formData, is_remote: e.target.checked})}
-                  className="w-4 h-4 text-brand-primary rounded focus:ring-brand-primary"
+                  className="w-4 h-4 text-gray-900 rounded focus:ring-gray-800"
                 />
                 <label htmlFor="is_remote" className="text-sm font-medium text-gray-700">
                   Remote Position
                 </label>
               </div>
               <div>
-                <label className="dc-label flex items-center gap-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2 flex items-center gap-2">
                   <FaCalendar className="w-4 h-4" />
                   Application Deadline
                 </label>
                 <input 
                   type="date"
-                  className="dc-input"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   value={formData.application_deadline}
                   onChange={e => setFormData({...formData, application_deadline: e.target.value})}
                 />
@@ -275,18 +271,18 @@ const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
 
             {/* Required Skills */}
             <div>
-              <label className="dc-label">Required Skills</label>
+              <label className="block text-sm font-medium text-gray-900 mb-2">Required Skills</label>
               <div className="flex flex-wrap gap-2 mb-3">
                 {formData.required_skills.map(skill => (
                   <span 
                     key={skill} 
-                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-700 text-sm font-medium rounded-lg"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-100 text-gray-900 text-sm font-medium rounded-lg"
                   >
                     {skill}
                     <button 
                       type="button"
                       onClick={() => removeSkill(skill)}
-                      className="text-blue-900 hover:text-red-600"
+                      className="text-gray-700 hover:text-gray-900"
                     >
                       <FaTimes className="w-3 h-3" />
                     </button>
@@ -295,7 +291,7 @@ const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
               </div>
               <div className="relative">
                 <input 
-                  className="dc-input pr-10"
+                  className="w-full px-4 py-3 pl-3 pr-10 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   placeholder="Type skill and press Enter"
                   value={formData.skillInput}
                   onChange={e => setFormData({...formData, skillInput: e.target.value})}
@@ -309,7 +305,7 @@ const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
                       handleAddSkill({ key: 'Enter', preventDefault: () => {} });
                     }
                   }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-primary"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
                   <FaTimes className="w-4 h-4 rotate-45" />
                 </button>
@@ -318,14 +314,14 @@ const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
 
             {/* Job Description */}
             <div>
-              <label className="dc-label flex items-center gap-2">
+              <label className="block text-sm font-medium text-gray-900 mb-2 flex items-center gap-2">
                 <FaFileAlt className="w-4 h-4" />
                 Job Description
               </label>
               <textarea 
                 required
                 rows={6}
-                className="dc-input"
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                 placeholder="Describe the role, responsibilities, requirements, and benefits..."
                 value={formData.description}
                 onChange={e => setFormData({...formData, description: e.target.value})}
@@ -333,26 +329,26 @@ const PostJobModal = ({ isOpen, onClose, onSubmit, job, onSuccess }) => {
             </div>
 
             {/* Footer Actions */}
-            <div className="sticky bottom-0 bg-white pt-6 border-t border-gray-100">
+            <div className="sticky bottom-0 bg-white pt-6 border-t border-gray-200">
               <div className="flex flex-col sm:flex-row gap-3">
                 <button 
                   type="button"
                   onClick={onClose}
-                  className="dc-btn-secondary flex-1 py-3"
+                  className="flex-1 py-3 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
                   disabled={loading}
-                  className={cn(
-                    "dc-btn-primary flex-1 py-3 flex items-center justify-center gap-2",
-                    loading && "opacity-50 cursor-not-allowed"
-                  )}
+                  className={`
+                    flex-1 py-3 bg-gray-900 hover:bg-black text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2
+                    ${loading ? "opacity-50 cursor-not-allowed" : ""}
+                  `}
                 >
                   {loading ? (
                     <>
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <FaSpinner className="w-4 h-4 animate-spin" />
                       <span>{job ? 'Updating...' : 'Posting...'}</span>
                     </>
                   ) : (

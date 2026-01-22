@@ -15,7 +15,6 @@ import {
   FaChevronRight
 } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { cn } from '../lib/utils';
 
 const JobExplorer = () => {
   const { user } = useAuth();
@@ -49,7 +48,7 @@ const JobExplorer = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['candidate-applications']);
-      toast.success('Application submitted successfully!');
+      toast.success('Application submitted successfully');
     },
     onError: (error) => {
       toast.error(error.message || 'Failed to apply for job');
@@ -78,10 +77,10 @@ const JobExplorer = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
         <div className="relative">
-          <div className="w-12 h-12 border-3 border-brand-light rounded-full"></div>
-          <div className="w-12 h-12 border-3 border-t-brand-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin absolute top-0"></div>
+          <div className="w-12 h-12 border-4 border-gray-200 rounded-full"></div>
+          <div className="w-12 h-12 border-4 border-t-gray-900 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin absolute top-0"></div>
         </div>
-        <p className="text-gray-500 font-medium">Finding opportunities for you...</p>
+        <p className="text-gray-500">Finding opportunities for you...</p>
       </div>
     );
   }
@@ -89,8 +88,8 @@ const JobExplorer = () => {
   if (isError) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-4">
-        <FaRobot className="w-12 h-12 text-red-400 mb-3" />
-        <h3 className="text-lg font-semibold text-gray-900 mb-1">Unable to load jobs</h3>
+        <FaRobot className="w-12 h-12 text-gray-400 mb-3" />
+        <h3 className="text-lg font-medium text-gray-900 mb-1">Unable to load jobs</h3>
         <p className="text-gray-600">Please check your connection and try again</p>
       </div>
     );
@@ -100,8 +99,8 @@ const JobExplorer = () => {
     <div className="space-y-6">
       {/* Hero Section */}
       <div className="text-center space-y-4">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-          Find Your Next <span className="text-brand-primary">Opportunity</span>
+        <h1 className="text-3xl md:text-4xl font-medium text-gray-900">
+          Find Your Next Opportunity
         </h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
           Discover jobs that match your skills and career goals
@@ -109,14 +108,14 @@ const JobExplorer = () => {
       </div>
 
       {/* Search and Filters */}
-      <div className="dc-card">
+      <div className="bg-white border border-gray-200 rounded-lg p-6">
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="relative flex-1">
             <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
             <input 
               type="text"
               placeholder="Search jobs, companies, or skills..."
-              className="dc-input pl-10 pr-4 py-2.5 w-full"
+              className="w-full px-4 py-3 pl-10 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -128,14 +127,14 @@ const JobExplorer = () => {
               <input 
                 type="text"
                 placeholder="Location"
-                className="dc-input pl-10 pr-4 py-2.5 min-w-[180px]"
+                className="px-4 py-3 pl-10 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all min-w-[180px]"
                 value={filters.location}
                 onChange={(e) => setFilters({...filters, location: e.target.value})}
               />
             </div>
             
             <select 
-              className="dc-input py-2.5 min-w-[140px]"
+              className="px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all min-w-[140px]"
               value={filters.jobType}
               onChange={(e) => setFilters({...filters, jobType: e.target.value})}
             >
@@ -152,14 +151,14 @@ const JobExplorer = () => {
         {/* Stats */}
         <div className="flex items-center justify-between text-sm text-gray-600">
           <span>
-            Showing <span className="font-semibold">{filteredJobs?.length || 0}</span> jobs
+            Showing <span className="font-medium">{filteredJobs?.length || 0}</span> jobs
           </span>
           <button 
             onClick={() => {
               setSearchTerm('');
               setFilters({ location: '', jobType: 'all', salaryRange: 'all' });
             }}
-            className="text-brand-primary hover:text-brand-primary/80 text-sm font-medium"
+            className="text-gray-700 hover:text-gray-900 text-sm font-medium"
           >
             Clear filters
           </button>
@@ -179,9 +178,9 @@ const JobExplorer = () => {
             />
           ))
         ) : (
-          <div className="col-span-full dc-card text-center py-12">
+          <div className="col-span-full bg-white border border-gray-200 rounded-lg p-8 text-center">
             <FaBriefcase className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No jobs found</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No jobs found</h3>
             <p className="text-gray-600">
               {jobs?.length === 0 
                 ? "No jobs are currently available. Check back later!"
@@ -198,22 +197,22 @@ const JobExplorer = () => {
 const JobCard = ({ job, onApply, isApplying, hasResume }) => {
   const getJobTypeColor = (type) => {
     switch (type?.toLowerCase()) {
-      case 'full-time': return 'bg-blue-100 text-blue-700';
-      case 'part-time': return 'bg-green-100 text-green-700';
-      case 'contract': return 'bg-purple-100 text-purple-700';
-      case 'remote': return 'bg-amber-100 text-amber-700';
-      case 'internship': return 'bg-pink-100 text-pink-700';
+      case 'full-time': return 'bg-gray-100 text-gray-700';
+      case 'part-time': return 'bg-gray-100 text-gray-700';
+      case 'contract': return 'bg-gray-100 text-gray-700';
+      case 'remote': return 'bg-gray-100 text-gray-700';
+      case 'internship': return 'bg-gray-100 text-gray-700';
       default: return 'bg-gray-100 text-gray-700';
     }
   };
 
   return (
-    <div className="dc-card hover:shadow-md transition-all h-full flex flex-col">
+    <div className="bg-white border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors h-full flex flex-col">
       {/* Job Header */}
       <div className="mb-4">
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-semibold text-gray-900 mb-1 truncate">{job.title}</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-1 truncate">{job.title}</h3>
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <span className="flex items-center gap-1">
                 <FaBuilding className="w-3 h-3" />
@@ -226,10 +225,10 @@ const JobCard = ({ job, onApply, isApplying, hasResume }) => {
               </span>
             </div>
           </div>
-          <span className={cn(
-            "text-xs font-medium px-2.5 py-1 rounded",
-            getJobTypeColor(job.job_type)
-          )}>
+          <span className={`
+            text-xs font-medium px-2.5 py-1 rounded
+            ${getJobTypeColor(job.job_type)}
+          `}>
             {job.job_type || 'Full-time'}
           </span>
         </div>
@@ -247,7 +246,7 @@ const JobCard = ({ job, onApply, isApplying, hasResume }) => {
             {job.experience_level || 'Not specified'}
           </span>
           {job.salary_min && (
-            <span className="flex items-center gap-1.5 font-semibold text-green-600">
+            <span className="flex items-center gap-1.5 font-medium text-gray-900">
               <FaMoneyBill className="w-3 h-3" />
               ${job.salary_min.toLocaleString()}+
             </span>
@@ -282,10 +281,10 @@ const JobCard = ({ job, onApply, isApplying, hasResume }) => {
           <button
             onClick={onApply}
             disabled={isApplying || !hasResume}
-            className={cn(
-              "dc-btn-primary flex-1 py-2.5 text-sm",
-              (!hasResume || isApplying) && "opacity-50 cursor-not-allowed"
-            )}
+            className={`
+              flex-1 py-2.5 text-sm bg-gray-900 hover:bg-black text-white font-medium rounded-lg transition-colors
+              ${(!hasResume || isApplying) ? 'opacity-50 cursor-not-allowed' : ''}
+            `}
           >
             {isApplying ? (
               <div className="flex items-center justify-center gap-2">
@@ -302,7 +301,7 @@ const JobCard = ({ job, onApply, isApplying, hasResume }) => {
             )}
           </button>
           
-          <button className="dc-btn-secondary flex items-center justify-center gap-2 py-2.5 text-sm">
+          <button className="flex items-center justify-center gap-2 py-2.5 px-4 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors text-sm">
             <FaRobot className="w-3 h-3" />
             <span className="hidden sm:inline">AI Match</span>
           </button>

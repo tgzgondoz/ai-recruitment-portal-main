@@ -18,7 +18,6 @@ import {
   FaUsers
 } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { cn, formatDate } from '../lib/utils';
 
 const JobListings = () => {
   const { user, isCandidate, isAgent } = useAuth();
@@ -43,7 +42,7 @@ const JobListings = () => {
   const applyMutation = useMutation({
     mutationFn: (jobId) => jobService.submitApplication(jobId, user.id),
     onSuccess: () => {
-      toast.success('Application submitted successfully!');
+      toast.success('Application submitted successfully');
       queryClient.invalidateQueries(['applications']);
     },
     onError: (err) => toast.error(err.message || 'Failed to apply')
@@ -83,10 +82,10 @@ const JobListings = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
         <div className="relative">
-          <div className="w-12 h-12 border-3 border-brand-light rounded-full"></div>
-          <div className="w-12 h-12 border-3 border-t-brand-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin absolute top-0"></div>
+          <div className="w-12 h-12 border-4 border-gray-200 rounded-full"></div>
+          <div className="w-12 h-12 border-4 border-t-gray-900 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin absolute top-0"></div>
         </div>
-        <p className="text-gray-500 font-medium">Loading job listings...</p>
+        <p className="text-gray-500">Loading job listings...</p>
       </div>
     );
   }
@@ -96,7 +95,7 @@ const JobListings = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+          <h1 className="text-2xl md:text-3xl font-medium text-gray-900">
             {isAgent ? 'Job Management' : 'Job Board'}
           </h1>
           <p className="text-gray-600 mt-1">
@@ -109,7 +108,7 @@ const JobListings = () => {
         {isAgent && (
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="dc-btn-primary flex items-center gap-2 px-6 py-3"
+            className="bg-gray-900 hover:bg-black text-white flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors"
           >
             <FaPlus className="w-4 h-4" />
             <span>Post New Job</span>
@@ -118,14 +117,14 @@ const JobListings = () => {
       </div>
 
       {/* Filters */}
-      <div className="dc-card">
+      <div className="bg-white border border-gray-200 rounded-lg p-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="relative">
             <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
             <input 
               type="text"
               placeholder="Search job titles..."
-              className="dc-input pl-10 pr-4 py-2.5 w-full"
+              className="w-full px-4 py-3 pl-10 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
               value={filters.search}
               onChange={(e) => setFilters({...filters, search: e.target.value})}
             />
@@ -136,14 +135,14 @@ const JobListings = () => {
             <input 
               type="text"
               placeholder="Location"
-              className="dc-input pl-10 pr-4 py-2.5 w-full"
+              className="w-full px-4 py-3 pl-10 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
               value={filters.location}
               onChange={(e) => setFilters({...filters, location: e.target.value})}
             />
           </div>
           
           <select 
-            className="dc-input py-2.5"
+            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
             value={filters.jobType}
             onChange={(e) => setFilters({...filters, jobType: e.target.value})}
           >
@@ -157,7 +156,7 @@ const JobListings = () => {
           
           {isAgent && (
             <select 
-              className="dc-input py-2.5"
+              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
               value={filters.status}
               onChange={(e) => setFilters({...filters, status: e.target.value})}
             >
@@ -192,9 +191,9 @@ const JobListings = () => {
             />
           ))
         ) : (
-          <div className="dc-card text-center py-12">
+          <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
             <FaBriefcase className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No jobs found</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No jobs found</h3>
             <p className="text-gray-600">
               {jobs?.length === 0 
                 ? "No jobs are currently available. Check back later!"
@@ -203,7 +202,7 @@ const JobListings = () => {
             {isAgent && (
               <button 
                 onClick={() => setIsModalOpen(true)}
-                className="dc-btn-primary inline-flex items-center gap-2 mt-4"
+                className="bg-gray-900 hover:bg-black text-white inline-flex items-center gap-2 mt-4 px-6 py-3 rounded-lg font-medium transition-colors"
               >
                 <FaPlus className="w-4 h-4" />
                 <span>Post Your First Job</span>
@@ -231,22 +230,22 @@ const JobListings = () => {
 const JobListItem = ({ job, isAgent, onApply, onView, onEdit, onDelete, isApplying, isDeleting }) => {
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
-      case 'active': return 'bg-green-100 text-green-700';
-      case 'draft': return 'bg-yellow-100 text-yellow-700';
-      case 'closed': return 'bg-red-100 text-red-700';
+      case 'active': return 'bg-gray-100 text-gray-700';
+      case 'draft': return 'bg-gray-100 text-gray-700';
+      case 'closed': return 'bg-gray-100 text-gray-700';
       case 'archived': return 'bg-gray-100 text-gray-700';
       default: return 'bg-gray-100 text-gray-700';
     }
   };
 
   return (
-    <div className="dc-card hover:shadow-md transition-all">
+    <div className="bg-white border border-gray-200 rounded-lg p-6 hover:border-gray-300 transition-colors">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         {/* Job Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">{job.title}</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-1">{job.title}</h3>
               <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 mb-2">
                 <span className="flex items-center gap-1.5">
                   <FaBriefcase className="w-3 h-3" />
@@ -260,16 +259,13 @@ const JobListItem = ({ job, isAgent, onApply, onView, onEdit, onDelete, isApplyi
                 <span className="text-gray-300">•</span>
                 <span className="flex items-center gap-1.5">
                   <FaClock className="w-3 h-3" />
-                  {formatDate(job.created_at)}
+                  {new Date(job.created_at).toLocaleDateString()}
                 </span>
               </div>
             </div>
             
             {isAgent && (
-              <span className={cn(
-                "text-xs font-medium px-2.5 py-1 rounded-full",
-                getStatusColor(job.status)
-              )}>
+              <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-700">
                 {job.status}
               </span>
             )}
@@ -282,13 +278,13 @@ const JobListItem = ({ job, isAgent, onApply, onView, onEdit, onDelete, isApplyi
           {/* Quick Stats */}
           <div className="flex items-center gap-4 text-sm">
             {job.salary_min && (
-              <span className="flex items-center gap-1.5 font-semibold text-green-600">
+              <span className="flex items-center gap-1.5 font-medium text-gray-900">
                 <FaDollarSign className="w-3 h-3" />
                 ${job.salary_min.toLocaleString()}+
               </span>
             )}
             {isAgent && job.applications_count > 0 && (
-              <span className="flex items-center gap-1.5 text-blue-600">
+              <span className="flex items-center gap-1.5 text-gray-900">
                 <FaUsers className="w-3 h-3" />
                 {job.applications_count} applicants
               </span>
@@ -302,14 +298,14 @@ const JobListItem = ({ job, isAgent, onApply, onView, onEdit, onDelete, isApplyi
             <>
               <button 
                 onClick={onView}
-                className="dc-btn-secondary flex items-center justify-center gap-2 py-2.5 text-sm"
+                className="border border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center justify-center gap-2 py-2.5 text-sm rounded-lg transition-colors"
               >
                 <FaEye className="w-3 h-3" />
                 <span>View</span>
               </button>
               <button 
                 onClick={onEdit}
-                className="dc-btn-secondary flex items-center justify-center gap-2 py-2.5 text-sm"
+                className="border border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center justify-center gap-2 py-2.5 text-sm rounded-lg transition-colors"
               >
                 <FaEdit className="w-3 h-3" />
                 <span>Edit</span>
@@ -317,7 +313,7 @@ const JobListItem = ({ job, isAgent, onApply, onView, onEdit, onDelete, isApplyi
               <button 
                 onClick={onDelete}
                 disabled={isDeleting}
-                className="dc-btn-secondary text-red-600 border-red-200 hover:bg-red-50 flex items-center justify-center gap-2 py-2.5 text-sm"
+                className="border border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center justify-center gap-2 py-2.5 text-sm rounded-lg transition-colors"
               >
                 <FaTrash className="w-3 h-3" />
                 <span>{isDeleting ? 'Deleting...' : 'Delete'}</span>
@@ -328,7 +324,7 @@ const JobListItem = ({ job, isAgent, onApply, onView, onEdit, onDelete, isApplyi
               <button 
                 onClick={onApply}
                 disabled={isApplying}
-                className="dc-btn-primary flex items-center justify-center gap-2 py-2.5 text-sm"
+                className="bg-gray-900 hover:bg-black text-white flex items-center justify-center gap-2 py-2.5 text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isApplying ? (
                   <>
@@ -344,7 +340,7 @@ const JobListItem = ({ job, isAgent, onApply, onView, onEdit, onDelete, isApplyi
               </button>
               <button 
                 onClick={onView}
-                className="dc-btn-secondary flex items-center justify-center gap-2 py-2.5 text-sm"
+                className="border border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center justify-center gap-2 py-2.5 text-sm rounded-lg transition-colors"
               >
                 <FaEye className="w-3 h-3" />
                 <span>View Details</span>

@@ -5,17 +5,14 @@ import { jobService } from '../services/jobService';
 import ApplicationDetailsModal from './ApplicationDetailsModal';
 import { 
   FaSearch, 
-  FaFilter, 
   FaUser, 
   FaEye, 
   FaCheckCircle, 
   FaChartLine,
-  FaSort,
-  FaEllipsisH,
   FaSpinner
 } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { cn, formatDate } from '../lib/utils';
+
 const Applications = () => {
   const { user, isAgent } = useAuth();
   const queryClient = useQueryClient();
@@ -85,10 +82,10 @@ const Applications = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
         <div className="relative">
-          <div className="w-12 h-12 border-3 border-brand-light rounded-full"></div>
-          <div className="w-12 h-12 border-3 border-t-brand-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin absolute top-0"></div>
+          <div className="w-12 h-12 border-4 border-gray-200 rounded-full"></div>
+          <div className="w-12 h-12 border-4 border-t-gray-900 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin absolute top-0"></div>
         </div>
-        <p className="text-gray-500 font-medium">Loading applications...</p>
+        <p className="text-gray-500">Loading applications...</p>
       </div>
     );
   }
@@ -98,9 +95,9 @@ const Applications = () => {
       {/* Header */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">Talent Pipeline</h1>
+          <h1 className="text-2xl lg:text-3xl font-medium text-gray-900">Applications</h1>
           <p className="text-gray-600 mt-1">
-            {filteredApps.length} {filteredApps.length === 1 ? 'application' : 'applications'} to review
+            {filteredApps.length} {filteredApps.length === 1 ? 'application' : 'applications'}
           </p>
         </div>
         
@@ -110,7 +107,7 @@ const Applications = () => {
           <div className="relative flex-1 sm:w-64">
             <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
             <input 
-              className="dc-input pl-10 pr-4 py-2.5 w-full"
+              className="w-full px-4 py-3 pl-10 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
               placeholder="Search candidates or roles..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -122,7 +119,7 @@ const Applications = () => {
             <select 
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="dc-input py-2.5 text-sm min-w-[120px]"
+              className="px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all text-sm min-w-[120px]"
             >
               <option value="all">All Status</option>
               <option value="applied">Applied</option>
@@ -136,7 +133,7 @@ const Applications = () => {
             <select 
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="dc-input py-2.5 text-sm min-w-[120px]"
+              className="px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all text-sm min-w-[120px]"
             >
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
@@ -147,14 +144,14 @@ const Applications = () => {
       </div>
 
       {/* ATS Threshold Slider */}
-      <div className="dc-card">
+      <div className="bg-white border border-gray-200 rounded-lg p-6">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-blue-100 text-blue-600 rounded-xl">
+            <div className="p-3 bg-gray-100 text-gray-900 rounded-lg">
               <FaChartLine className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900">ATS Match Threshold</h3>
+              <h3 className="font-medium text-gray-900">ATS Match Threshold</h3>
               <p className="text-sm text-gray-600">Filter candidates below {minMatch}% match score</p>
             </div>
           </div>
@@ -167,9 +164,9 @@ const Applications = () => {
               step="10"
               value={minMatch}
               onChange={(e) => setMinMatch(parseInt(e.target.value))}
-              className="flex-1 md:w-48 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-primary"
+              className="flex-1 md:w-48 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-gray-900"
             />
-            <div className="px-3 py-2 bg-brand-primary text-white rounded-lg font-semibold text-sm min-w-[60px] text-center">
+            <div className="px-3 py-2 bg-gray-900 text-white rounded-lg font-medium text-sm min-w-[60px] text-center">
               {minMatch}%
             </div>
           </div>
@@ -177,19 +174,19 @@ const Applications = () => {
       </div>
 
       {/* Applications Grid/Table */}
-      <div className="dc-card p-0 overflow-hidden">
+      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
         {/* Desktop Table */}
         <div className="hidden md:block">
           <div className="overflow-x-auto">
-            <table className="dc-table">
-              <thead className="dc-table-header">
+            <table className="w-full">
+              <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="dc-table-header-cell">Candidate</th>
-                  <th className="dc-table-header-cell">Position</th>
-                  <th className="dc-table-header-cell">Match Score</th>
-                  <th className="dc-table-header-cell">Status</th>
-                  <th className="dc-table-header-cell">Applied</th>
-                  <th className="dc-table-header-cell">Actions</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Candidate</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Position</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Match Score</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Applied</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -255,18 +252,12 @@ const Applications = () => {
 // Desktop Row Component
 const ApplicationRow = ({ app, onSelect, calculateScore }) => {
   const score = calculateScore(app);
-  const getScoreColor = (score) => {
-    if (score >= 80) return 'bg-green-100 text-green-700';
-    if (score >= 60) return 'bg-blue-100 text-blue-700';
-    if (score >= 40) return 'bg-yellow-100 text-yellow-700';
-    return 'bg-red-100 text-red-700';
-  };
-
+  
   return (
     <tr className="hover:bg-gray-50 transition-colors">
-      <td className="px-4 py-4">
+      <td className="px-6 py-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-brand-primary to-brand-secondary rounded-full flex items-center justify-center text-white font-semibold text-sm">
+          <div className="w-10 h-10 bg-gray-900 text-white rounded-full flex items-center justify-center font-medium text-sm">
             {app.candidate?.full_name?.[0]?.toUpperCase() || '?'}
           </div>
           <div>
@@ -277,49 +268,38 @@ const ApplicationRow = ({ app, onSelect, calculateScore }) => {
           </div>
         </div>
       </td>
-      <td className="px-4 py-4">
+      <td className="px-6 py-4">
         <p className="font-medium text-gray-900 text-sm">{app.job?.title}</p>
         <p className="text-xs text-gray-500">{app.job?.location_city}</p>
       </td>
-      <td className="px-4 py-4">
+      <td className="px-6 py-4">
         <div className="flex items-center gap-2">
           <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
             <div 
-              className={cn(
-                "h-full rounded-full transition-all",
-                score >= 80 ? "bg-green-500" :
-                score >= 60 ? "bg-blue-500" :
-                score >= 40 ? "bg-yellow-500" : "bg-red-500"
-              )}
+              className="h-full rounded-full transition-all bg-gray-900"
               style={{ width: `${score}%` }}
             />
           </div>
-          <span className={cn(
-            "text-sm font-semibold px-2 py-0.5 rounded",
-            getScoreColor(score)
-          )}>
+          <span className="text-sm font-medium text-gray-900">
             {score}%
           </span>
         </div>
       </td>
-      <td className="px-4 py-4">
-        <span className={cn(
-          "inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full",
-          getStatusStyle(app.status)
-        )}>
-          <span className="w-1.5 h-1.5 rounded-full bg-current" />
+      <td className="px-6 py-4">
+        <span className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full bg-gray-100 text-gray-700">
+          <span className="w-1.5 h-1.5 rounded-full bg-gray-900" />
           {app.status}
         </span>
       </td>
-      <td className="px-4 py-4">
+      <td className="px-6 py-4">
         <span className="text-sm text-gray-500">
-          {formatDate(app.applied_at)}
+          {new Date(app.applied_at).toLocaleDateString()}
         </span>
       </td>
-      <td className="px-4 py-4">
+      <td className="px-6 py-4">
         <button 
           onClick={() => onSelect(app)}
-          className="dc-btn-primary flex items-center gap-2 px-3 py-1.5 text-sm"
+          className="flex items-center gap-2 px-3 py-1.5 text-sm bg-gray-900 hover:bg-black text-white font-medium rounded-lg transition-colors"
         >
           <FaEye className="w-3 h-3" />
           <span>View</span>
@@ -337,20 +317,15 @@ const MobileApplicationCard = ({ app, onSelect, calculateScore }) => {
     <div className="p-4 hover:bg-gray-50 transition-colors">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3 flex-1">
-          <div className="w-12 h-12 bg-gradient-to-br from-brand-primary to-brand-secondary rounded-full flex items-center justify-center text-white font-semibold text-base flex-shrink-0">
+          <div className="w-12 h-12 bg-gray-900 text-white rounded-full flex items-center justify-center font-medium text-base flex-shrink-0">
             {app.candidate?.full_name?.[0]?.toUpperCase() || '?'}
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-1">
-              <p className="font-semibold text-gray-900 truncate">
+              <p className="font-medium text-gray-900 truncate">
                 {app.candidate?.full_name || 'Anonymous'}
               </p>
-              <span className={cn(
-                "text-xs font-semibold px-2 py-0.5 rounded",
-                score >= 80 ? "bg-green-100 text-green-700" :
-                score >= 60 ? "bg-blue-100 text-blue-700" :
-                "bg-yellow-100 text-yellow-700"
-              )}>
+              <span className="text-xs font-medium text-gray-900">
                 {score}%
               </span>
             </div>
@@ -360,13 +335,10 @@ const MobileApplicationCard = ({ app, onSelect, calculateScore }) => {
             <div className="flex items-center gap-3 text-xs text-gray-500">
               <span>{app.job?.location_city}</span>
               <span>•</span>
-              <span>{formatDate(app.applied_at)}</span>
+              <span>{new Date(app.applied_at).toLocaleDateString()}</span>
             </div>
             <div className="mt-2">
-              <span className={cn(
-                "inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full",
-                getStatusStyle(app.status)
-              )}>
+              <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-700">
                 {app.status}
               </span>
             </div>
@@ -374,28 +346,13 @@ const MobileApplicationCard = ({ app, onSelect, calculateScore }) => {
         </div>
         <button 
           onClick={() => onSelect(app)}
-          className="p-2 text-brand-primary hover:bg-brand-primary/10 rounded-lg"
+          className="p-2 text-gray-900 hover:bg-gray-100 rounded-lg"
         >
           <FaEye className="w-4 h-4" />
         </button>
       </div>
     </div>
   );
-};
-
-// Status Style Helper
-const getStatusStyle = (status) => {
-  switch (status?.toLowerCase()) {
-    case 'applied': return 'bg-blue-100 text-blue-700';
-    case 'pending': return 'bg-yellow-100 text-yellow-700';
-    case 'reviewing': return 'bg-purple-100 text-purple-700';
-    case 'shortlisted': return 'bg-indigo-100 text-indigo-700';
-    case 'interviewing': return 'bg-pink-100 text-pink-700';
-    case 'offered': return 'bg-green-100 text-green-700';
-    case 'hired': return 'bg-emerald-100 text-emerald-700';
-    case 'rejected': return 'bg-red-100 text-red-700';
-    default: return 'bg-gray-100 text-gray-700';
-  }
 };
 
 export default Applications;

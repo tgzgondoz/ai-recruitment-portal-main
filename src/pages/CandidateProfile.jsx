@@ -5,14 +5,13 @@ import { jobService } from '../services/jobService';
 import { documentService } from '../services/documentService';
 import { 
   FaTimes, FaSave, FaSpinner, FaCloudUploadAlt, 
-  FaFilePdf, FaCheckCircle, FaRobot, FaTrashAlt,
+  FaFilePdf, FaCheckCircle, FaTrashAlt,
   FaUser,
   FaGraduationCap,
   FaBriefcase,
   FaPen
 } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { cn } from '../lib/utils';
 
 const CandidateProfile = () => {
   const { user } = useAuth();
@@ -60,7 +59,7 @@ const CandidateProfile = () => {
     mutationFn: (data) => jobService.updateProfile(data),
     onSuccess: () => {
       queryClient.invalidateQueries(['profile']);
-      toast.success('Profile updated successfully!');
+      toast.success('Profile updated successfully');
     },
     onError: () => toast.error('Failed to update profile')
   });
@@ -83,12 +82,12 @@ const CandidateProfile = () => {
     try {
       setUploading(true);
       await documentService.uploadCV(user.id, file);
-      toast.success('CV uploaded successfully!');
+      toast.success('CV uploaded successfully');
       refetchCV();
       queryClient.invalidateQueries(['cv', user?.id]);
     } catch (err) {
       console.error(err);
-      toast.error(err.message || 'Upload failed. Please try again.');
+      toast.error(err.message || 'Upload failed');
     } finally {
       setUploading(false);
       e.target.value = null;
@@ -154,10 +153,10 @@ const CandidateProfile = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
         <div className="relative">
-          <div className="w-12 h-12 border-3 border-brand-light rounded-full"></div>
-          <div className="w-12 h-12 border-3 border-t-brand-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin absolute top-0"></div>
+          <div className="w-12 h-12 border-4 border-gray-200 rounded-full"></div>
+          <div className="w-12 h-12 border-4 border-t-gray-900 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin absolute top-0"></div>
         </div>
-        <p className="text-gray-500 font-medium">Loading your profile...</p>
+        <p className="text-gray-500">Loading your profile...</p>
       </div>
     );
   }
@@ -167,13 +166,13 @@ const CandidateProfile = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">My Profile</h1>
+          <h1 className="text-2xl md:text-3xl font-medium text-gray-900">My Profile</h1>
           <p className="text-gray-600 mt-1">Manage your professional information</p>
         </div>
         <button 
           onClick={handleSubmit}
           disabled={profileMutation.isPending}
-          className="dc-btn-primary flex items-center gap-2 px-6 py-3"
+          className="bg-gray-900 hover:bg-black text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {profileMutation.isPending ? (
             <FaSpinner className="animate-spin" />
@@ -188,47 +187,41 @@ const CandidateProfile = () => {
         {/* Left Column - Basic Info */}
         <div className="lg:col-span-2 space-y-6">
           {/* Profile Card */}
-          <div className="dc-card">
+          <div className="bg-white border border-gray-200 rounded-lg p-6">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-20 h-20 bg-gradient-to-br from-brand-primary to-brand-secondary rounded-xl flex items-center justify-center text-white text-2xl font-bold">
+              <div className="w-20 h-20 bg-gray-900 text-white rounded-lg flex items-center justify-center text-2xl font-medium">
                 {formData.full_name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || '?'}
               </div>
               <div className="flex-1 min-w-0">
                 <input
-                  className="text-2xl font-bold text-gray-900 w-full bg-transparent border-none focus:outline-none focus:ring-0 p-0"
+                  className="text-2xl font-medium text-gray-900 w-full bg-transparent border-none focus:outline-none focus:ring-0 p-0"
                   value={formData.full_name || ''}
                   onChange={e => setFormData({...formData, full_name: e.target.value})}
                   placeholder="Your Full Name"
                 />
                 <input
-                  className="text-sm text-brand-primary font-medium w-full bg-transparent border-none focus:outline-none focus:ring-0 p-0 mt-1"
+                  className="text-sm text-gray-600 font-medium w-full bg-transparent border-none focus:outline-none focus:ring-0 p-0 mt-1"
                   value={formData.headline || ''}
                   onChange={e => setFormData({...formData, headline: e.target.value})}
-                  placeholder="Professional Headline (e.g., Senior Software Engineer)"
+                  placeholder="Professional Headline"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
-                <label className="dc-label flex items-center gap-2">
-                  <FaUser className="w-3 h-3" />
-                  Location
-                </label>
+                <label className="block text-sm font-medium text-gray-900 mb-2">Location</label>
                 <input
-                  className="dc-input"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   value={formData.location || ''}
                   onChange={e => setFormData({...formData, location: e.target.value})}
                   placeholder="City, Country"
                 />
               </div>
               <div>
-                <label className="dc-label flex items-center gap-2">
-                  <FaBriefcase className="w-3 h-3" />
-                  Phone
-                </label>
+                <label className="block text-sm font-medium text-gray-900 mb-2">Phone</label>
                 <input
-                  className="dc-input"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                   value={formData.phone || ''}
                   onChange={e => setFormData({...formData, phone: e.target.value})}
                   placeholder="+1 (123) 456-7890"
@@ -237,12 +230,9 @@ const CandidateProfile = () => {
             </div>
 
             <div className="mb-6">
-              <label className="dc-label flex items-center gap-2">
-                <FaPen className="w-3 h-3" />
-                LinkedIn Profile
-              </label>
+              <label className="block text-sm font-medium text-gray-900 mb-2">LinkedIn Profile</label>
               <input
-                className="dc-input"
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all"
                 value={formData.linkedin_url || ''}
                 onChange={e => setFormData({...formData, linkedin_url: e.target.value})}
                 placeholder="https://linkedin.com/in/yourprofile"
@@ -250,9 +240,9 @@ const CandidateProfile = () => {
             </div>
 
             <div>
-              <label className="dc-label">Professional Bio</label>
+              <label className="block text-sm font-medium text-gray-900 mb-2">Professional Bio</label>
               <textarea
-                className="dc-input h-40"
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all h-40"
                 value={formData.bio || ''}
                 onChange={e => setFormData({...formData, bio: e.target.value})}
                 placeholder="Tell us about your experience, skills, and career goals..."
@@ -265,12 +255,12 @@ const CandidateProfile = () => {
         {/* Right Column - Skills & CV */}
         <div className="space-y-6">
           {/* Skills Card */}
-          <div className="dc-card">
+          <div className="bg-white border border-gray-200 rounded-lg p-6">
             <div className="flex items-center gap-2 mb-4">
-              <div className="p-2 bg-purple-100 text-purple-600 rounded-lg">
+              <div className="p-2 bg-gray-100 text-gray-900 rounded-lg">
                 <FaGraduationCap className="w-4 h-4" />
               </div>
-              <h3 className="font-semibold text-gray-900">Skills</h3>
+              <h3 className="font-medium text-gray-900">Skills</h3>
             </div>
 
             <div className="mb-4">
@@ -278,12 +268,12 @@ const CandidateProfile = () => {
                 {formData.skills?.map(skill => (
                   <span 
                     key={skill} 
-                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-700 text-sm font-medium rounded-lg"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-100 text-gray-900 text-sm rounded-lg"
                   >
                     {skill}
                     <button 
                       onClick={() => removeSkill(skill)}
-                      className="text-blue-900 hover:text-red-600"
+                      className="text-gray-500 hover:text-gray-700"
                     >
                       <FaTimes className="w-3 h-3" />
                     </button>
@@ -293,7 +283,7 @@ const CandidateProfile = () => {
 
               <div className="relative">
                 <input
-                  className="dc-input pr-10"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 transition-all pr-10"
                   placeholder="Type skill and press Enter"
                   value={formData.skillInput}
                   onChange={e => setFormData({...formData, skillInput: e.target.value})}
@@ -306,7 +296,7 @@ const CandidateProfile = () => {
                       handleAddSkill({ key: 'Enter', preventDefault: () => {} });
                     }
                   }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-primary"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
                   <FaTimes className="w-4 h-4 rotate-45" />
                 </button>
@@ -315,19 +305,19 @@ const CandidateProfile = () => {
           </div>
 
           {/* CV Card */}
-          <div className="dc-card">
+          <div className="bg-white border border-gray-200 rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <div className="p-2 bg-red-100 text-red-600 rounded-lg">
+                <div className="p-2 bg-gray-100 text-gray-900 rounded-lg">
                   <FaFilePdf className="w-4 h-4" />
                 </div>
-                <h3 className="font-semibold text-gray-900">Resume / CV</h3>
+                <h3 className="font-medium text-gray-900">Resume / CV</h3>
               </div>
               {cvRecord && (
                 <button
                   onClick={handleDeleteCV}
                   disabled={uploading}
-                  className="text-red-600 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition-colors"
+                  className="text-gray-400 hover:text-gray-600 p-2 hover:bg-gray-100 rounded-lg transition-colors"
                   title="Delete resume"
                 >
                   <FaTrashAlt className="w-4 h-4" />
@@ -337,24 +327,20 @@ const CandidateProfile = () => {
 
             {cvRecord ? (
               <div className="space-y-4">
-                <div className="p-4 bg-green-50 border border-green-100 rounded-xl">
+                <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <FaCheckCircle className="w-4 h-4 text-green-600" />
-                      <span className="font-medium text-green-800 text-sm truncate">
+                      <FaCheckCircle className="w-4 h-4 text-gray-900" />
+                      <span className="font-medium text-gray-900 text-sm truncate">
                         {cvRecord.file_name || 'Resume.pdf'}
                       </span>
                     </div>
-                    <span className="text-xs text-green-600 font-medium">Uploaded</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-green-600">
-                    <FaRobot className="w-3 h-3" />
-                    <span>AI analysis complete</span>
+                    <span className="text-xs text-gray-600 font-medium">Uploaded</span>
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="text-center p-6 border-2 border-dashed border-gray-200 rounded-xl mb-4">
+              <div className="text-center p-6 border-2 border-dashed border-gray-200 rounded-lg mb-4">
                 <FaCloudUploadAlt className="w-8 h-8 text-gray-400 mx-auto mb-3" />
                 <p className="text-sm font-medium text-gray-600 mb-2">No resume uploaded</p>
                 <p className="text-xs text-gray-500">Upload a PDF to get AI analysis</p>
@@ -362,10 +348,10 @@ const CandidateProfile = () => {
             )}
 
             <label className="block">
-              <div className={cn(
-                "dc-btn-secondary w-full text-center cursor-pointer",
-                uploading && "opacity-50 cursor-not-allowed"
-              )}>
+              <div className={`
+                w-full px-4 py-3 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg text-center cursor-pointer transition-colors
+                ${uploading ? 'opacity-50 cursor-not-allowed' : ''}
+              `}>
                 <div className="flex items-center justify-center gap-2">
                   {uploading ? (
                     <FaSpinner className="animate-spin" />
@@ -393,8 +379,8 @@ const CandidateProfile = () => {
           </div>
 
           {/* Profile Completion */}
-          <div className="dc-card">
-            <h3 className="font-semibold text-gray-900 mb-4">Profile Completion</h3>
+          <div className="bg-white border border-gray-200 rounded-lg p-6">
+            <h3 className="font-medium text-gray-900 mb-4">Profile Completion</h3>
             <div className="space-y-3">
               {[
                 { label: 'Full Name', completed: !!formData.full_name },
@@ -406,12 +392,10 @@ const CandidateProfile = () => {
               ].map((item, index) => (
                 <div key={index} className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">{item.label}</span>
-                  <div className={cn(
-                    "w-5 h-5 rounded-full flex items-center justify-center",
-                    item.completed 
-                      ? "bg-green-100 text-green-600" 
-                      : "bg-gray-100 text-gray-400"
-                  )}>
+                  <div className={`
+                    w-5 h-5 rounded-full flex items-center justify-center
+                    ${item.completed ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-400"}
+                  `}>
                     {item.completed ? (
                       <FaCheckCircle className="w-3 h-3" />
                     ) : (
