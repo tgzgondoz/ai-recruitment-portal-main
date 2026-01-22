@@ -13,7 +13,10 @@ import {
   FaMoneyBill,
   FaPercent,
   FaArrowUp,
-  FaArrowDown
+  FaArrowDown,
+  FaFileExport,
+  FaPlus,
+  FaUpload
 } from 'react-icons/fa';
 import { cn } from '../lib/utils';
 
@@ -30,8 +33,8 @@ const Analytics = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
         <div className="relative">
-          <div className="w-12 h-12 border-3 border-brand-light rounded-full"></div>
-          <div className="w-12 h-12 border-3 border-t-brand-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin absolute top-0"></div>
+          <div className="w-12 h-12 border-3 border-gray-200 rounded-full"></div>
+          <div className="w-12 h-12 border-3 border-t-gray-900 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin absolute top-0"></div>
         </div>
         <p className="text-gray-500 font-medium">Loading analytics...</p>
       </div>
@@ -41,7 +44,7 @@ const Analytics = () => {
   if (isError) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-4">
-        <FaChartBar className="w-12 h-12 text-red-400 mb-3" />
+        <FaChartBar className="w-12 h-12 text-gray-400 mb-3" />
         <h3 className="text-lg font-semibold text-gray-900 mb-1">Unable to load analytics</h3>
         <p className="text-gray-600">Please check your connection and try again</p>
       </div>
@@ -54,8 +57,8 @@ const Analytics = () => {
       label: 'Total Applications', 
       value: stats?.totalApplications || 0, 
       icon: <FaUsers className="w-5 h-5" />, 
-      color: 'text-blue-600', 
-      bg: 'bg-blue-50',
+      color: 'text-gray-700', 
+      bg: 'bg-gray-100',
       trend: '+12%',
       trendUp: true
     },
@@ -63,8 +66,8 @@ const Analytics = () => {
       label: 'Pending Review', 
       value: stats?.pendingReviews || 0, 
       icon: <FaClipboardList className="w-5 h-5" />, 
-      color: 'text-amber-600', 
-      bg: 'bg-amber-50',
+      color: 'text-gray-700', 
+      bg: 'bg-gray-100',
       trend: '-3%',
       trendUp: false
     },
@@ -72,8 +75,8 @@ const Analytics = () => {
       label: 'Interviews Scheduled', 
       value: stats?.interviewsScheduled || 0, 
       icon: <FaCalendarAlt className="w-5 h-5" />, 
-      color: 'text-purple-600', 
-      bg: 'bg-purple-50',
+      color: 'text-gray-700', 
+      bg: 'bg-gray-100',
       trend: '+8%',
       trendUp: true
     },
@@ -81,8 +84,8 @@ const Analytics = () => {
       label: 'Offers Made', 
       value: stats?.offersSent || 0, 
       icon: <FaCheckDouble className="w-5 h-5" />, 
-      color: 'text-emerald-600', 
-      bg: 'bg-emerald-50',
+      color: 'text-gray-700', 
+      bg: 'bg-gray-100',
       trend: '+15%',
       trendUp: true
     },
@@ -90,9 +93,9 @@ const Analytics = () => {
 
   // Performance metrics
   const performanceMetrics = [
-    { label: 'Avg. Time to Hire', value: '24 days', icon: <FaClock className="w-4 h-4" />, color: 'text-blue-600' },
-    { label: 'Offer Acceptance Rate', value: '78%', icon: <FaPercent className="w-4 h-4" />, color: 'text-green-600' },
-    { label: 'Avg. Salary', value: '$85,000', icon: <FaMoneyBill className="w-4 h-4" />, color: 'text-amber-600' },
+    { label: 'Avg. Time to Hire', value: '24 days', icon: <FaClock className="w-4 h-4" />, color: 'text-gray-700' },
+    { label: 'Offer Acceptance Rate', value: '78%', icon: <FaPercent className="w-4 h-4" />, color: 'text-gray-700' },
+    { label: 'Avg. Salary', value: '$85,000', icon: <FaMoneyBill className="w-4 h-4" />, color: 'text-gray-700' },
   ];
 
   return (
@@ -105,11 +108,12 @@ const Analytics = () => {
         </div>
         
         <div className="flex items-center gap-3 text-sm">
-          <span className="px-3 py-1.5 bg-brand-primary/10 text-brand-primary rounded-lg font-medium">
+          <span className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg font-medium border border-gray-200">
             Last 30 Days
           </span>
-          <button className="dc-btn-secondary px-4 py-2">
-            Export Report
+          <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+            <FaFileExport className="w-4 h-4" />
+            <span>Export Report</span>
           </button>
         </div>
       </div>
@@ -117,7 +121,7 @@ const Analytics = () => {
       {/* Main Metrics Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {mainMetrics.map((metric, index) => (
-          <div key={index} className="dc-card">
+          <div key={index} className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div className={cn(
                 "w-12 h-12 rounded-xl flex items-center justify-center",
@@ -128,14 +132,11 @@ const Analytics = () => {
               </div>
               <div className="flex items-center gap-1">
                 {metric.trendUp ? (
-                  <FaArrowUp className="w-3 h-3 text-green-500" />
+                  <FaArrowUp className="w-3 h-3 text-gray-600" />
                 ) : (
-                  <FaArrowDown className="w-3 h-3 text-red-500" />
+                  <FaArrowDown className="w-3 h-3 text-gray-600" />
                 )}
-                <span className={cn(
-                  "text-xs font-semibold",
-                  metric.trendUp ? "text-green-600" : "text-red-600"
-                )}>
+                <span className="text-xs font-semibold text-gray-600">
                   {metric.trend}
                 </span>
               </div>
@@ -151,22 +152,22 @@ const Analytics = () => {
         {/* Performance Metrics */}
         <div className="lg:col-span-2 space-y-6">
           {/* Pipeline Overview */}
-          <div className="dc-card">
+          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Recruitment Pipeline</h2>
             <div className="space-y-4">
               {[
-                { stage: 'Applied', count: stats?.totalApplications || 0, color: 'bg-blue-500' },
-                { stage: 'Reviewing', count: stats?.pendingReviews || 0, color: 'bg-amber-500' },
-                { stage: 'Interviewing', count: stats?.interviewsScheduled || 0, color: 'bg-purple-500' },
-                { stage: 'Offered', count: stats?.offersSent || 0, color: 'bg-green-500' },
-                { stage: 'Hired', count: Math.floor((stats?.offersSent || 0) * 0.78), color: 'bg-emerald-500' },
+                { stage: 'Applied', count: stats?.totalApplications || 0, color: 'bg-gray-900' },
+                { stage: 'Reviewing', count: stats?.pendingReviews || 0, color: 'bg-gray-700' },
+                { stage: 'Interviewing', count: stats?.interviewsScheduled || 0, color: 'bg-gray-600' },
+                { stage: 'Offered', count: stats?.offersSent || 0, color: 'bg-gray-500' },
+                { stage: 'Hired', count: Math.floor((stats?.offersSent || 0) * 0.78), color: 'bg-gray-400' },
               ].map((item, index) => (
                 <div key={index} className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="font-medium text-gray-700">{item.stage}</span>
                     <span className="font-semibold text-gray-900">{item.count}</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-gray-100 rounded-full h-2">
                     <div 
                       className={cn("h-2 rounded-full transition-all duration-500", item.color)}
                       style={{ 
@@ -180,13 +181,13 @@ const Analytics = () => {
           </div>
 
           {/* Time Analysis */}
-          <div className="dc-card">
+          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Performance Metrics</h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {performanceMetrics.map((metric, index) => (
-                <div key={index} className="p-4 bg-gray-50 rounded-xl">
+                <div key={index} className="p-4 bg-gray-50 rounded-xl border border-gray-100">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className={cn("p-2 rounded-lg", metric.color, metric.color.replace('text', 'bg') + '20')}>
+                    <div className="p-2 rounded-lg bg-gray-100">
                       {metric.icon}
                     </div>
                     <span className="text-sm font-medium text-gray-600">{metric.label}</span>
@@ -200,35 +201,35 @@ const Analytics = () => {
 
         {/* Insights & Recommendations */}
         <div className="space-y-6">
-          <div className="dc-card">
+          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Insights</h2>
             <div className="space-y-4">
-              <div className="p-3 bg-blue-50 rounded-lg border border-blue-100">
+              <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
                 <div className="flex items-center gap-2 mb-1">
-                  <FaChartBar className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-medium text-blue-800">Pipeline Health</span>
+                  <FaChartBar className="w-4 h-4 text-gray-700" />
+                  <span className="text-sm font-medium text-gray-900">Pipeline Health</span>
                 </div>
-                <p className="text-xs text-blue-700">
+                <p className="text-xs text-gray-600">
                   Your pipeline conversion rate is 32% above average.
                 </p>
               </div>
               
-              <div className="p-3 bg-green-50 rounded-lg border border-green-100">
+              <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
                 <div className="flex items-center gap-2 mb-1">
-                  <FaCalendarAlt className="w-4 h-4 text-green-600" />
-                  <span className="text-sm font-medium text-green-800">Interview Success</span>
+                  <FaCalendarAlt className="w-4 h-4 text-gray-700" />
+                  <span className="text-sm font-medium text-gray-900">Interview Success</span>
                 </div>
-                <p className="text-xs text-green-700">
+                <p className="text-xs text-gray-600">
                   68% of interviews progress to offer stage.
                 </p>
               </div>
               
-              <div className="p-3 bg-amber-50 rounded-lg border border-amber-100">
+              <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
                 <div className="flex items-center gap-2 mb-1">
-                  <FaClock className="w-4 h-4 text-amber-600" />
-                  <span className="text-sm font-medium text-amber-800">Time to Fill</span>
+                  <FaClock className="w-4 h-4 text-gray-700" />
+                  <span className="text-sm font-medium text-gray-900">Time to Fill</span>
                 </div>
-                <p className="text-xs text-amber-700">
+                <p className="text-xs text-gray-600">
                   Average role filled in 24 days, 6 days faster than benchmark.
                 </p>
               </div>
@@ -236,23 +237,23 @@ const Analytics = () => {
           </div>
 
           {/* Action Items */}
-          <div className="dc-card">
+          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Recommended Actions</h2>
             <div className="space-y-3">
               <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                <div className="w-2 h-2 bg-brand-primary rounded-full"></div>
+                <div className="w-2 h-2 bg-gray-900 rounded-full"></div>
                 <span className="text-sm text-gray-700">Review 12 pending applications</span>
               </div>
               <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                <div className="w-2 h-2 bg-brand-primary rounded-full"></div>
+                <div className="w-2 h-2 bg-gray-900 rounded-full"></div>
                 <span className="text-sm text-gray-700">Schedule 3 follow-up interviews</span>
               </div>
               <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                <div className="w-2 h-2 bg-brand-primary rounded-full"></div>
+                <div className="w-2 h-2 bg-gray-900 rounded-full"></div>
                 <span className="text-sm text-gray-700">Send offer letters to 2 candidates</span>
               </div>
               <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                <div className="w-2 h-2 bg-brand-primary rounded-full"></div>
+                <div className="w-2 h-2 bg-gray-900 rounded-full"></div>
                 <span className="text-sm text-gray-700">Update 5 job descriptions</span>
               </div>
             </div>
@@ -262,18 +263,20 @@ const Analytics = () => {
 
       {/* Empty State for Charts */}
       {(!stats || Object.keys(stats).length === 0) && (
-        <div className="dc-card text-center py-12">
+        <div className="bg-white border border-gray-200 rounded-xl p-12 text-center shadow-sm">
           <FaChartBar className="w-12 h-12 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-gray-900 mb-2">More data needed</h3>
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600 mb-4 max-w-md mx-auto">
             Detailed analytics and trend charts will appear as your recruitment activity grows.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <button className="dc-btn-primary px-6 py-3">
-              Post New Job
+            <button className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors">
+              <FaPlus className="w-4 h-4" />
+              <span>Post New Job</span>
             </button>
-            <button className="dc-btn-secondary px-6 py-3">
-              Import Candidates
+            <button className="flex items-center justify-center gap-2 px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+              <FaUpload className="w-4 h-4" />
+              <span>Import Candidates</span>
             </button>
           </div>
         </div>

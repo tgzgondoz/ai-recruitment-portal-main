@@ -85,7 +85,7 @@ const Navbar = ({ onMenuClick }) => {
           {/* User type switcher */}
           <button 
             onClick={() => switchUserType(isCandidate ? 'agent' : 'candidate')}
-            className="hidden sm:flex items-center gap-2 px-3 py-1.5 border border-gray-200 rounded-lg transition-all hover:border-gray-300"
+            className="hidden sm:flex items-center gap-2 px-3 py-1.5 border border-gray-200 rounded-lg transition-all hover:border-gray-300 bg-white"
           >
             {userType === 'agent' ? (
               <>
@@ -108,7 +108,7 @@ const Navbar = ({ onMenuClick }) => {
                 setIsNotifOpen(!isNotifOpen);
                 setIsProfileOpen(false);
               }} 
-              className="p-2 text-gray-600 hover:text-gray-900 rounded-lg transition-colors"
+              className=""
             >
               <FaBell className="w-5 h-5" />
             </button>
@@ -150,7 +150,7 @@ const Navbar = ({ onMenuClick }) => {
                 setIsProfileOpen(!isProfileOpen);
                 setIsNotifOpen(false);
               }}
-              className="flex items-center gap-2 p-1 rounded-lg transition-colors"
+              className="flex items-center gap-2 p-1 rounded-lg transition-colors hover:bg-gray-50"
             >
               <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-700 font-medium">
                 {user?.email?.[0]?.toUpperCase() || 'U'}
@@ -168,9 +168,9 @@ const Navbar = ({ onMenuClick }) => {
                 </div>
                 <button 
                   onClick={handleSignOut} 
-                  className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition-colors"
+                  className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 "
                 >
-                  <FaSignOutAlt size={14} /> 
+                  <FaSignOutAlt className="text-gray-600" size={14} /> 
                   <span>Sign Out</span>
                 </button>
               </div>

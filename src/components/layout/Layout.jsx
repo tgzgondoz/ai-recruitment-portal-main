@@ -31,7 +31,7 @@ const Layout = () => {
       {/* Mobile overlay */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-gray-900/50 z-40 md:hidden" 
+          className="fixed inset-0 bg-gray-900/30 z-40 md:hidden" 
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
@@ -41,7 +41,7 @@ const Layout = () => {
         <Navbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
 
         <main 
-          className="flex-1 overflow-y-auto p-4 md:p-6"
+          className="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50"
           onClick={handleMainClick}
         >
           <div className="max-w-[1400px] mx-auto">
